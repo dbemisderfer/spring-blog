@@ -2,15 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>Blog Posts</title>
+    <title>Blog Posts Index</title>
 </head>
 <body>
 
     <h1>Future Home of All Blog Posts</h1>
-    <div th:each="post : ${posts}">
-        <p th:text="${post.getTitle()}"></p>
-        <p th:text="${post.getBody()}"></p>
-    </div>
+    <!--<ul>-->
+        <!--<li th:each="item : ${posts}">-->
+            <!--<a th:href="@{'/posts/' + ${item.getId()}}"><h3 th:text="${item.title}"></h3></a>-->
+            <!--<p th:text="${item.body}"></p>-->
+            <!--&lt;!&ndash;<p th:text="${post.getText()}"></p>&ndash;&gt;-->
+            <!--&lt;!&ndash;<p th:text="${post.getFooter()}"></p>&ndash;&gt;-->
+        <!--</li>-->
+    <!--</ul>-->
+
+<!-- About line 12 above, see: https://stackoverflow.com/questions/14938344/thymeleaf-construct-url-with-variable -->
+
+    <ul>
+        <li th:each="post : ${posts}">
+            <p th:text="${post.getTitle()}"></p>
+            <p th:text="${post.getBody()}"></p>
+        </li>
+    </ul>
 
 </body>
 </html>
