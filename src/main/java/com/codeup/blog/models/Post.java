@@ -1,4 +1,4 @@
-package com.codeup.blog;
+package com.codeup.blog.models;
 
 import javax.persistence.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ public class Post {
     @Id @GeneratedValue
     private long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100, unique = true)
     private String title;
 
     @Column(nullable = false)
@@ -23,7 +23,7 @@ public class Post {
 ////    @Column(nullable = false)
 //    private TextArea footer;
 
-    public Post() {}
+    public Post() {} // for the C on the CRUD
 //
 //    public Post(String title, String body, TextArea footer) {
 //        this.title = title;
@@ -31,7 +31,7 @@ public class Post {
 //        this.footer = footer;
 //    }
 //
-    public Post(long id, String title, String body) {
+    public Post(long id, String title, String body) { // for the R, U on the CRUD
         this.id = id;
         this.title = title;
         this.body = body;

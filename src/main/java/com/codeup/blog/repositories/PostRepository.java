@@ -1,13 +1,14 @@
-package com.codeup.blog;
+package com.codeup.blog.repositories;
 
+import com.codeup.blog.models.Post;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.beans.Transient;
-import java.util.List;
 
+@Repository //good to add to each repository
 public interface PostRepository extends CrudRepository<Post, Long> { //<Bean Class, Id(Primary Key)>
 //
 //    List<Post> findAll();  // this is a built-in method

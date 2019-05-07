@@ -1,15 +1,10 @@
-package com.codeup.blog;
+package com.codeup.blog.controllers;
 
-import org.apache.commons.collections4.IteratorUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codeup.blog.models.Post;
+import com.codeup.blog.repositories.PostRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Text;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class PostController {
