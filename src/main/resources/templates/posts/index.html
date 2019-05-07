@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title>Blog Posts Index</title>
+    <th:block th:replace="fragments/head :: header-bootstrap('Show All Posts')"/>
 </head>
 <body>
+    <th:block th:replace="fragments/navbar :: navbar1"/>
 
     <h1>Future Home of All Blog Posts</h1>
     <!--<ul>-->
@@ -20,10 +20,14 @@
 
     <ul>
         <li th:each="post : ${posts}">
-            <p th:text="${post.getTitle()}"></p>
-            <p th:text="${post.getBody()}"></p>
+            <p th:text="${post.id}"></p>
+            <a th:href="@{'/posts/' + ${post.id}}"><p th:text="${post.title}"></p></a>
+            <p th:text="${post.body}"></p>
+            <a th:href="@{'/posts/' + ${post.id}}"><button>Delete Post</button></a>
         </li>
     </ul>
+
+    <th:block th:replace="fragments/foot" />
 
 </body>
 </html>

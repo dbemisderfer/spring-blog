@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
-    <title>Blog Post</title>
+    <th:block th:replace="fragments/head :: header-bootstrap('Show Individual Post')"/>
 </head>
 <body>
+    <th:block th:replace="fragments/navbar :: navbar1"/>
 
     <h1>Individual Blog Post With ID <span th:text="${id}"></span> Shown Here</h1>
-        <h2><span th:text="${post.getTitle()}"></span></h2>
-        <p><span th:text="${post.getBody()}"></span></p>
+        <!--<h2><span th:text="${post.getTitle()}"></span></h2>-->
+        <!--<p><span th:text="${post.getBody()}"></span></p>-->
+    <h2><span th:text="${post.title}"></span></h2>
+    <p><span th:text="${post.body}"></span></p>
+
+    <th:block th:replace="fragments/foot" />
 </body>
 </html>

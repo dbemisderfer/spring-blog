@@ -3,7 +3,7 @@ package com.codeup.blog;
 import javax.persistence.*;
 import java.awt.*;
 
-@Entity
+@Entity // designates this class as a "bean" (used for any class that has its own table)
 @Table(name="spring_blogs")
 public class Post {
     @Id @GeneratedValue

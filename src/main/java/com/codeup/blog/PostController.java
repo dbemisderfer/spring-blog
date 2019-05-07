@@ -4,10 +4,7 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.Text;
 
 import java.awt.*;
@@ -29,29 +26,87 @@ public class PostController {
         this.postDao = postDao;
     }
 
+//    @GetMapping("/posts")
+////    @ResponseBody
+//    public String getPosts(Model viewModel) {
+////        Post post1 = new Post();
+////        post1.setTitle("First Blog Post");
+////        post1.setBody("This is the first post in my new blog.");
+////        postDao.save(post1);
+////        Post post2 = new Post();
+////        post2.setTitle("Second Blog Post");
+////        post2.setBody("This is the second post in my new blog");
+////        postDao.save(post2);
+//        viewModel.addAttribute("posts", postDao.findAll());
+//
+////            List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
+//////            List<Post> posts = postDao.findByTitle("First Blog Post");
+////            for (Post post : posts) {
+////                System.out.println(post.getId());
+////                System.out.println(post.getTitle());
+////                System.out.println(post.getBody());
+////            }
+////            return "success";
+//            return "posts/index";
+//        }
     @GetMapping("/posts")
-//    @ResponseBody
-    public String getPosts(Model model) {
-        Post post1 = new Post();
-        post1.setTitle("First Blog Post");
-        post1.setBody("This is the first post in my new blog.");
-        postDao.save(post1);
-        Post post2 = new Post();
-        post2.setTitle("Second Blog Post");
-        post2.setBody("This is the second post in my new blog");
-        postDao.save(post2);
+    public String showPosts(Model model) {
+//        init();
         model.addAttribute("posts", postDao.findAll());
+        return "posts/index";
+    }
 
-//            List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
-////            List<Post> posts = postDao.findByTitle("First Blog Post");
-//            for (Post post : posts) {
-//                System.out.println(post.getId());
-//                System.out.println(post.getTitle());
-//                System.out.println(post.getBody());
-//            }
-//            return "success";
-            return "posts/index";
-        }
+    @GetMapping("posts/{id}")
+    public String showPost(@PathVariable long id, Model model) {
+        Post post = postDao.findOne(id);
+        model.addAttribute("post", post);
+        return "posts/show";
+    }
+
+    @GetMapping("/posts/create")
+    public String showCreationForm() {
+        return "posts/create";
+    }
+
+    @PostMapping("/posts/create")
+    @ResponseBody
+    public String createNewPost(@RequestParam String title, @RequestParam String body) {
+        Post newPost = new Post();
+        newPost.setTitle(title);
+        newPost.setBody(body);
+        postDao.save(newPost);
+        return "New post created.";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String editForm(@PathVariable long id, Model model) {
+        Post post = postDao.findOne(id);
+        model.addAttribute("post", post);
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    @ResponseBody
+    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
+        Post post = postDao.findOne(Long.valueOf(id));
+        post.setTitle(title);
+        post.setBody(body);
+        postDao.save(post);
+        return "Successfully modified post";
+    }
+
+//    @GetMapping("/posts/create")
+//    public String deletePost(@PathVariable long n) {
+//        postDao.deleteById(n);
+//        return "posts/index";
+//    }
+//
+//    @GetMapping("/posts/{n}")
+//    public String deletePost(@PathVariable long n) {
+//        postDao.deleteById(n);
+//        return "posts/index";
+//    }
+
 
 
 //    @GetMapping("/posts")
@@ -106,18 +161,6 @@ public class PostController {
 //        return "posts/show";
 //    }
 
-    @GetMapping("/posts/create")
-    @ResponseBody
-    public String showCreationForm() {
-        return "View the form for creating a post.";
-    }
-
-    @PostMapping("/posts/create")
-    @ResponseBody
-    public String createNewPost() {
-        return "Create a new post.";
-    }
-
 //    @PostMapping("/posts/email")
 //    @ResponseBody
 //    public String emailPost(EmailService emailService) {
@@ -129,4 +172,15 @@ public class PostController {
 //        emailService.prepareAndSend(post1);
 //        return "success";
 //    }
+
+    private void init() {
+        Post post1 = new Post();
+        post1.setTitle("First Blog Post");
+        post1.setBody("This is the first post in my new blog.");
+        postDao.save(post1);
+        Post post2 = new Post();
+        post2.setTitle("Second Blog Post");
+        post2.setBody("This is the second post in my new blog");
+        postDao.save(post2);
+    }
 }
