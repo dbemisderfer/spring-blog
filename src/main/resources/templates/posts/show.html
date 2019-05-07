@@ -11,6 +11,7 @@
         <!--<p><span th:text="${post.getBody()}"></span></p>-->
     <h2><span th:text="${post.title}"></span></h2>
     <p><span th:text="${post.body}"></span></p>
+    <p><span th:text="${post.owner.email}"></span></p>
 
     <th:block th:replace="fragments/foot" />
 </body>
