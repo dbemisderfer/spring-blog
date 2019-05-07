@@ -83,11 +83,10 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     @ResponseBody
-    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String authorEmail, @RequestParam String id) {
+    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
         Post post = postDao.findOne(Long.valueOf(id));
         post.setTitle(title);
         post.setBody(body);
-        post.setAuthorEmail(authorEmail);
         postDao.save(post);
         return "Successfully modified post";
     }

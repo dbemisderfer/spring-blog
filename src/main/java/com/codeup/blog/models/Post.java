@@ -15,9 +15,6 @@ public class Post {
     @Column(nullable = false)
     private String body;
 
-    @Column(name="author_email")
-    private String authorEmail;
-
 //    private String text;
 //
 ////    @Column(nullable = false)
@@ -79,13 +76,6 @@ public class Post {
         this.body = body;
     }
 
-    public String getAuthorEmail() {
-        return authorEmail;
-    }
-
-    public void setAuthorEmail(String authorEmail) {
-        this.authorEmail = authorEmail;
-    }
 
 //    public TextArea getFooter() {
 //        return footer;
