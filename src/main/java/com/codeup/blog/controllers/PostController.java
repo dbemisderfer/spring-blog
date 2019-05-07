@@ -1,7 +1,9 @@
 package com.codeup.blog.controllers;
 
 import com.codeup.blog.models.Post;
+import com.codeup.blog.models.User;
 import com.codeup.blog.repositories.PostRepository;
+import com.codeup.blog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,13 @@ public class PostController {
 //    }
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao) {
+    public PostController(PostRepository postDao, UserRepository userDao) {
         this.postDao = postDao;
+        this.userDao = userDao;
     }
+
 
 //    @GetMapping("/posts")
 ////    @ResponseBody
@@ -46,7 +51,7 @@ public class PostController {
 //        }
     @GetMapping("/posts")
     public String showPosts(Model model) {
-//        init();
+//        init(); //be sure to go to web link to populate table
 //        List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
@@ -60,16 +65,18 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String showCreationForm() {
+    public String showCreationForm(Model model) {
+        model.addAttribute("users", userDao.findAll());
         return "posts/create";
     }
 
     @PostMapping("/posts/create")
     @ResponseBody
-    public String createNewPost(@RequestParam String title, @RequestParam String body) {
+    public String createNewPost(@RequestParam String title, @RequestParam String body, @RequestParam User user) {
         Post newPost = new Post();
         newPost.setTitle(title);
         newPost.setBody(body);
+        newPost.setOwner(user);
         postDao.save(newPost);
         return "New post created.";
     }
