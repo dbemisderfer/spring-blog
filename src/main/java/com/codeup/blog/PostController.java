@@ -52,14 +52,15 @@ public class PostController {
     @GetMapping("/posts")
     public String showPosts(Model model) {
 //        init();
+//        List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
         model.addAttribute("posts", postDao.findAll());
         return "posts/index";
     }
 
     @GetMapping("posts/{id}")
     public String showPost(@PathVariable long id, Model model) {
-        Post post = postDao.findOne(id);
-        model.addAttribute("post", post);
+//        Post post = postDao.findOne(id);
+        model.addAttribute("post", postDao.findOne(id));
         return "posts/show";
     }
 
@@ -87,25 +88,31 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     @ResponseBody
-    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
+    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String authorEmail, @RequestParam String id) {
         Post post = postDao.findOne(Long.valueOf(id));
         post.setTitle(title);
         post.setBody(body);
+        post.setAuthorEmail(authorEmail);
         postDao.save(post);
         return "Successfully modified post";
     }
 
-//    @GetMapping("/posts/create")
-//    public String deletePost(@PathVariable long n) {
-//        postDao.deleteById(n);
-//        return "posts/index";
-//    }
-//
-//    @GetMapping("/posts/{n}")
-//    public String deletePost(@PathVariable long n) {
-//        postDao.deleteById(n);
-//        return "posts/index";
-//    }
+
+
+    @GetMapping("/posts/{id}/delete")
+    public String deletePost(@PathVariable long id, Model model) {
+        model.addAttribute("post", postDao.findOne(id));
+//        postDao.deleteById(id);
+        return "posts/delete";
+    }
+
+    @PostMapping("/posts/{id}/delete")
+    @ResponseBody
+    public String deletePost(@RequestParam String id) {
+        postDao.deleteById(Long.valueOf(id));
+        return "Post successfully deleted.";
+    }
+
 
 
 
