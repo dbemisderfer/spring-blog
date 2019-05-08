@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.awt.*;
 
 @Entity // designates this class as a "bean" (used for any class that has its own table)
-@Table(name="spring_blogs")
+@Table(name="posts")
 public class Post {
     @Id @GeneratedValue
     private long id;
@@ -12,11 +12,12 @@ public class Post {
     @Column(nullable = false, length = 100, unique = true)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "text")
     private String body;
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")
+//    @JoinColumn(name="user_id") // will also work
     private User author;
 
 //    @OneToOne

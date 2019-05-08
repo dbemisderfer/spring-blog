@@ -66,6 +66,7 @@ public class PostController {
 
     @GetMapping("/posts/create")
     public String showCreationForm(Model model) {
+        model.addAttribute("users", userDao.findAll());
         model.addAttribute("post", new Post());
         return "posts/create";
     }
@@ -78,7 +79,7 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String createNewPost(@ModelAttribute Post post) {
-        post.setAuthor(userDao.findOne(1L));
+//        post.setAuthor(userDao.findOne(1L));
         postDao.save(post);
         return "redirect:/posts";
     }
@@ -102,16 +103,27 @@ public class PostController {
         return "posts/edit";
     }
 
+
     @PostMapping("/posts/{id}/edit")
 //    @ResponseBody
-    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
-        Post post = postDao.findOne(Long.valueOf(id));
-        post.setTitle(title);
-        post.setBody(body);
+    public String editPost(@ModelAttribute Post post) {
+//        post.setAuthor(userDao.findOne(Long.parseLong(id)));
+//        Post post = postDao.findOne(Long.valueOf(id));
         postDao.save(post);
 //        return "Successfully modified post";
         return "redirect:/posts";
     }
+
+//    @PostMapping("/posts/{id}/edit")
+////    @ResponseBody
+//    public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
+//        Post post = postDao.findOne(Long.valueOf(id));
+//        post.setTitle(title);
+//        post.setBody(body);
+//        postDao.save(post);
+////        return "Successfully modified post";
+//        return "redirect:/posts";
+//    }
 
 
 
