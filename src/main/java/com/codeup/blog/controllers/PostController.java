@@ -103,13 +103,14 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    @ResponseBody
+//    @ResponseBody
     public String editPost(@RequestParam String title, @RequestParam String body, @RequestParam String id) {
         Post post = postDao.findOne(Long.valueOf(id));
         post.setTitle(title);
         post.setBody(body);
         postDao.save(post);
-        return "Successfully modified post";
+//        return "Successfully modified post";
+        return "redirect:/posts";
     }
 
 
@@ -122,10 +123,11 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/delete")
-    @ResponseBody
+//    @ResponseBody
     public String deletePost(@RequestParam String id) {
         postDao.deleteById(Long.valueOf(id));
-        return "Post successfully deleted.";
+//        return "Post successfully deleted.";
+        return "redirect:/posts";
     }
 
 
