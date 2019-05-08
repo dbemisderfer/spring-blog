@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class PostController {
 
-    private final PostRepository postDao;
-    private final UserRepository userDao;
+    private final PostRepository postRepo;
+    private final UserRepository userRepo;
     private EmailService emailService;
 
     public PostController(PostRepository posts, UserRepository users, EmailService emailService) {
-        this.postDao = posts;
-        this.userDao = users;
+        this.postRepo = posts;
+        this.userRepo = users;
         this.emailService = emailService;
     }
 
@@ -28,15 +28,15 @@ public class PostController {
 ////        Post post1 = new Post();
 ////        post1.setTitle("First Blog Post");
 ////        post1.setBody("This is the first post in my new blog.");
-////        postDao.save(post1);
+////        postRepo.save(post1);
 ////        Post post2 = new Post();
 ////        post2.setTitle("Second Blog Post");
 ////        post2.setBody("This is the second post in my new blog");
-////        postDao.save(post2);
+////        postRepo.save(post2);
 //        viewModel.addAttribute("posts", postDao.findAll());
 //
 ////            List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
-//////            List<Post> posts = postDao.findByTitle("First Blog Post");
+//////            List<Post> posts = postRepo.findByTitle("First Blog Post");
 ////            for (Post post : posts) {
 ////                System.out.println(post.getId());
 ////                System.out.println(post.getTitle());
@@ -48,35 +48,35 @@ public class PostController {
     @GetMapping("/posts")
     public String showPosts(Model model) {
 //        init(); //be sure to go to web link to populate table
-//        List<Post> posts = IteratorUtils.toList(postDao.findAll().iterator());
-        model.addAttribute("posts", postDao.findAll());
+//        List<Post> posts = IteratorUtils.toList(postRepo.findAll().iterator());
+        model.addAttribute("posts", postRepo.findAll());
         return "posts/index";
     }
 
     @GetMapping("posts/{id}")
     public String showPost(@PathVariable long id, Model model) {
-//        Post post = postDao.findOne(id);
-        model.addAttribute("post", postDao.findOne(id));
+//        Post post = postRepo.findOne(id);
+        model.addAttribute("post", postRepo.findOne(id));
         return "posts/show";
     }
 
     @GetMapping("/posts/create")
     public String showCreationForm(Model model) {
-        model.addAttribute("users", userDao.findAll());
+        model.addAttribute("users", userRepo.findAll());
         model.addAttribute("post", new Post()); // matches th:object in view html file
         return "posts/create";
     }
 
 //    @GetMapping("/posts/create")
 //    public String showCreationForm(Model model) {
-//        model.addAttribute("users", userDao.findAll());
+//        model.addAttribute("users", userRepo.findAll());
 //        return "posts/create";
 //    }
 
     @PostMapping("/posts/create")
     public String createNewPost(@ModelAttribute Post postToSaved) { //matches data type sent in GetMapping
-//        post.setAuthor(userDao.findOne(1L));
-        Post savedPost = postDao.save(postToSaved);
+//        post.setAuthor(userRepo.findOne(1L));
+        Post savedPost = postRepo.save(postToSaved);
         emailService.prepareAndSend(savedPost, "Post has been created.", "The post has been created successfully and you can find it with the ID of " + savedPost.getId());
         return "redirect:/posts/" + savedPost.getId();
     }
@@ -89,13 +89,13 @@ public class PostController {
 //        newPost.setBody(body);
 ////        newPost.setAuthor(userDao.findOne(1L));
 //        newPost.setAuthor(user);
-//        postDao.save(newPost);
+//        postRepo.save(newPost);
 //        return "New post created.";
 //    }
 
     @GetMapping("/posts/{id}/edit")
     public String editForm(@PathVariable long id, Model model) {
-        Post post = postDao.findOne(id);
+        Post post = postRepo.findOne(id);
         model.addAttribute("post", post);
         return "posts/edit";
     }
@@ -103,7 +103,7 @@ public class PostController {
 
     @PostMapping("/posts/{id}/edit")
     public String editPost(@ModelAttribute Post postToBeEdited) {
-        postDao.save(postToBeEdited);
+        postRepo.save(postToBeEdited);
         return "redirect:/posts/" + postToBeEdited.getId();
     }
 
@@ -122,15 +122,15 @@ public class PostController {
 
     @GetMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id, Model model) {
-        model.addAttribute("post", postDao.findOne(id));
-//        postDao.deleteById(id);
+        model.addAttribute("post", postRepo.findOne(id));
+//        postRepo.deleteById(id);
         return "posts/delete";
     }
 
     @PostMapping("/posts/{id}/delete")
 //    @ResponseBody
     public String deletePost(@RequestParam String id) {
-        postDao.deleteById(Long.valueOf(id));
+        postRepo.deleteById(Long.valueOf(id));
 //        return "Post successfully deleted.";
         return "redirect:/posts";
     }
@@ -209,10 +209,10 @@ public class PostController {
         Post post1 = new Post();
         post1.setTitle("First Blog Post");
         post1.setBody("This is the first post in my new blog.");
-        postDao.save(post1);
+        postRepo.save(post1);
         Post post2 = new Post();
         post2.setTitle("Second Blog Post");
         post2.setBody("This is the second post in my new blog");
-        postDao.save(post2);
+        postRepo.save(post2);
     }
 }
