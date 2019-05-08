@@ -6,12 +6,12 @@
 <body>
     <th:block th:replace="fragments/navbar :: navbar1"/>
 
-    <h1>Individual Blog Post With ID <span th:text="${id}"></span> Shown Here</h1>
+    <!--<h1>Individual Blog Post With ID <span th:text="${id}"></span> Shown Here</h1>-->
         <!--<h2><span th:text="${post.getTitle()}"></span></h2>-->
         <!--<p><span th:text="${post.getBody()}"></span></p>-->
     <h2><span th:text="${post.title}"></span></h2>
     <p><span th:text="${post.body}"></span></p>
-    <p><span th:text="${post.owner.email}"></span></p>
+    <p><span th:text="${post.author.email}"></span></p>
 
     <th:block th:replace="fragments/foot" />
 </body>

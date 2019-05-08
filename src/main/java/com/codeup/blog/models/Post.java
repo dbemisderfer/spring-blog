@@ -15,8 +15,12 @@ public class Post {
     @Column(nullable = false)
     private String body;
 
-    @OneToOne
-    private User owner;
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User author;
+
+//    @OneToOne
+//    private User owner;
 
 //    private String text;
 //
@@ -79,12 +83,12 @@ public class Post {
         this.body = body;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
 

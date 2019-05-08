@@ -20,9 +20,9 @@ public class PostController {
     private final PostRepository postDao;
     private final UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
-        this.postDao = postDao;
-        this.userDao = userDao;
+    public PostController(PostRepository posts, UserRepository users) {
+        this.postDao = posts;
+        this.userDao = users;
     }
 
 
@@ -66,20 +66,34 @@ public class PostController {
 
     @GetMapping("/posts/create")
     public String showCreationForm(Model model) {
-        model.addAttribute("users", userDao.findAll());
+        model.addAttribute("post", new Post());
         return "posts/create";
     }
 
+//    @GetMapping("/posts/create")
+//    public String showCreationForm(Model model) {
+//        model.addAttribute("users", userDao.findAll());
+//        return "posts/create";
+//    }
+
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String createNewPost(@RequestParam String title, @RequestParam String body, @RequestParam User user) {
-        Post newPost = new Post();
-        newPost.setTitle(title);
-        newPost.setBody(body);
-        newPost.setOwner(user);
-        postDao.save(newPost);
-        return "New post created.";
+    public String createNewPost(@ModelAttribute Post post) {
+        post.setAuthor(userDao.findOne(1L));
+        postDao.save(post);
+        return "redirect:/posts";
     }
+
+//    @PostMapping("/posts/create")
+//    @ResponseBody
+//    public String createNewPost(@RequestParam String title, @RequestParam String body, @RequestParam User user) {
+//        Post newPost = new Post();
+//        newPost.setTitle(title);
+//        newPost.setBody(body);
+////        newPost.setAuthor(userDao.findOne(1L));
+//        newPost.setAuthor(user);
+//        postDao.save(newPost);
+//        return "New post created.";
+//    }
 
     @GetMapping("/posts/{id}/edit")
     public String editForm(@PathVariable long id, Model model) {
