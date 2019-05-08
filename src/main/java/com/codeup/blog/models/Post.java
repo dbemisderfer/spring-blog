@@ -23,42 +23,29 @@ public class Post {
 //    @OneToOne
 //    private User owner;
 
-//    private String text;
-//
-////    @Column(nullable = false)
-//    private TextArea footer;
-
     public Post() {} // for the C on the CRUD
-//
-//    public Post(String title, String body, TextArea footer) {
-//        this.title = title;
-//        this.body = body;
-//        this.footer = footer;
-//    }
-//
-    public Post(long id, String title, String body) { // for the R, U on the CRUD
+
+    public Post(String title, String body, User author) { // for the U on the CRUD
+        this.title = title;
+        this.body = body;
+        this.author = author;
+    }
+
+    public Post(long id, String title, String body, User author) { // for the R on the CRUD
         this.id = id;
         this.title = title;
         this.body = body;
+        this.author = author;
     }
-//
-//    public Post(String title, String body, String text) {
-//        this.title = title;
-//        this.body = body;
-//        this.text = text;
-//    }
-//
+
+    public Post(long id) { // for the D on the CRUD
+        this.id = id;
+    }
+
     public Post(String title, String body) {
         this.title = title;
         this.body = body;
     }
-//
-//    public Post(String title, String body, String text, TextArea footer) {
-//        this.title = title;
-//        this.body = body;
-//        this.text = text;
-//        this.footer = footer;
-//    }
 
     public long getId() {
         return id;
@@ -91,23 +78,6 @@ public class Post {
     public void setAuthor(User author) {
         this.author = author;
     }
-
-
-//    public TextArea getFooter() {
-//        return footer;
-//    }
-//
-//    public void setFooter(TextArea footer) {
-//        this.footer = footer;
-//    }
-//
-//    public String getText() {
-//        return text;
-//    }
-//
-//    public void setText(String text) {
-//        this.text = text;
-//    }
 
 
 

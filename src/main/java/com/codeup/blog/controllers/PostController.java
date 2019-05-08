@@ -1,28 +1,24 @@
 package com.codeup.blog.controllers;
 
 import com.codeup.blog.models.Post;
-import com.codeup.blog.models.User;
 import com.codeup.blog.repositories.PostRepository;
 import com.codeup.blog.repositories.UserRepository;
+import com.codeup.blog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PostController {
-//    @Autowired
-//    private EmailService emailService;
-//
-//    public PostController(EmailService emailService) {
-//        this.emailService = emailService;
-//    }
 
     private final PostRepository postDao;
     private final UserRepository userDao;
+    private EmailService emailService;
 
-    public PostController(PostRepository posts, UserRepository users) {
+    public PostController(PostRepository posts, UserRepository users, EmailService emailService) {
         this.postDao = posts;
         this.userDao = users;
+        this.emailService = emailService;
     }
 
 
@@ -67,7 +63,7 @@ public class PostController {
     @GetMapping("/posts/create")
     public String showCreationForm(Model model) {
         model.addAttribute("users", userDao.findAll());
-        model.addAttribute("post", new Post());
+        model.addAttribute("post", new Post()); // matches th:object in view html file
         return "posts/create";
     }
 
@@ -78,10 +74,11 @@ public class PostController {
 //    }
 
     @PostMapping("/posts/create")
-    public String createNewPost(@ModelAttribute Post post) {
+    public String createNewPost(@ModelAttribute Post postToSaved) { //matches data type sent in GetMapping
 //        post.setAuthor(userDao.findOne(1L));
-        postDao.save(post);
-        return "redirect:/posts";
+        Post savedPost = postDao.save(postToSaved);
+        emailService.prepareAndSend(savedPost, "Post has been created.", "The post has been created successfully and you can find it with the ID of " + savedPost.getId());
+        return "redirect:/posts/" + savedPost.getId();
     }
 
 //    @PostMapping("/posts/create")
@@ -105,13 +102,9 @@ public class PostController {
 
 
     @PostMapping("/posts/{id}/edit")
-//    @ResponseBody
-    public String editPost(@ModelAttribute Post post) {
-//        post.setAuthor(userDao.findOne(Long.parseLong(id)));
-//        Post post = postDao.findOne(Long.valueOf(id));
-        postDao.save(post);
-//        return "Successfully modified post";
-        return "redirect:/posts";
+    public String editPost(@ModelAttribute Post postToBeEdited) {
+        postDao.save(postToBeEdited);
+        return "redirect:/posts/" + postToBeEdited.getId();
     }
 
 //    @PostMapping("/posts/{id}/edit")
@@ -144,7 +137,10 @@ public class PostController {
 
 
 
-
+    @GetMapping("/posts/navbar")
+    public String showNavbar() {
+        return "fragments/nav-in-progress";
+    }
 //    @GetMapping("/posts")
 //    @ResponseBody
 //    public String showPosts() {
