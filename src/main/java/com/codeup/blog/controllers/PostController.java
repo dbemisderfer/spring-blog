@@ -1,9 +1,11 @@
 package com.codeup.blog.controllers;
 
 import com.codeup.blog.models.Post;
+import com.codeup.blog.models.User;
 import com.codeup.blog.repositories.PostRepository;
 import com.codeup.blog.repositories.UserRepository;
 import com.codeup.blog.services.EmailService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +78,9 @@ public class PostController {
     @PostMapping("/posts/create")
     public String createNewPost(@ModelAttribute Post postToSaved) { //matches data type sent in GetMapping
 //        post.setAuthor(userRepo.findOne(1L));
+        User sessionUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User userDB = userRepo.findOne(sessionUser.getId());
+        postToSaved.setAuthor(userDB);
         Post savedPost = postRepo.save(postToSaved);
         emailService.prepareAndSend(savedPost, "Post has been created.", "The post has been created successfully and you can find it with the ID of " + savedPost.getId());
         return "redirect:/posts/" + savedPost.getId();

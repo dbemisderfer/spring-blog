@@ -1,10 +1,10 @@
-package com.codeup.blog;
+package com.codeup.blog.models;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name="properties")
-public class Properties {
+public class Property {
 //CREATE TABLE properties
 //(
 //    id INT UNSIGNED NOT NULL AUTO_INCREMENT,

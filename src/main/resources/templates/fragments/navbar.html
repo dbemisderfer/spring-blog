@@ -1,16 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8" />
     <title>Title</title>
 </head>
 <body>
 <th:block th:fragment="navbar1">
-    <div class="container">
-        <div class="row">
+    <!--<div class="container">-->
+        <!--<div class="row">-->
+            <!--<a href="http://google.com">Google</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <ul>
+        <li sec:authorize="isAuthenticated()">
+            Welcome to our blog post site, <span th:text="${#authentication.principal.username}"></span>!
+        </li>
+        <!-- More links here... -->
+        <li sec:authorize="isAuthenticated()">
             <a href="http://google.com">Google</a>
-        </div>
-    </div>
+        </li>
+        <li sec:authorize="isAuthenticated()">
+            <form th:action="@{/logout}" th:method="post">
+                <button class="btn-link btn" style="margin-top: 8px">Logout</button>
+            </form>
+        </li>
+    </ul>
 
 </th:block>
 
