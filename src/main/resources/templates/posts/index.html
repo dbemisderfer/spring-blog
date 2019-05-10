@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <th:block th:replace="fragments/head :: header-bootstrap('Show All Posts')"/>
 </head>
 <body>
-    <th:block th:replace="fragments/navbar :: navbar1"/>
+    <th:block sec:authorize="isAuthenticated()" th:replace="fragments/navbar :: navbar1"/>
 
     <h1>Future Home of All Blog Posts</h1>
     <!--<ul>-->
@@ -16,19 +17,19 @@
         <!--</li>-->
     <!--</ul>-->
 
-<!-- About line 12 above, see: https://stackoverflow.com/questions/14938344/thymeleaf-construct-url-with-variable -->
+<!-- About line 13 above, see: https://stackoverflow.com/questions/14938344/thymeleaf-construct-url-with-variable -->
 
     <ul>
         <li th:each="post : ${posts}">
             <p th:text="${post.id}"></p>
             <a th:href="@{'/posts/' + ${post.id}}"><p th:text="${post.title}"></p></a>
             <p th:text="${post.body}"></p>
-            <a th:href="@{'/posts/' + ${post.id} + '/edit'}"><button>Edit Post</button></a>
-            <a th:href="@{'/posts/' + ${post.id} + '/delete'}"><button>Delete Post</button></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{'/posts/' + ${post.id} + '/edit'}"><button>Edit Post</button></a>
+            <a sec:authorize="isAuthenticated()" th:href="@{'/posts/' + ${post.id} + '/delete'}"><button>Delete Post</button></a>
         </li>
     </ul>
 
-    <a href="/posts/create" ><button>Create New Post</button></a>
+    <a sec:authorize="isAuthenticated()" href="/posts/create" ><button>Create New Post</button></a>
 
     <th:block th:replace="fragments/foot" />
 

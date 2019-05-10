@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class PostController {
 
@@ -48,9 +50,10 @@ public class PostController {
 //            return "posts/index";
 //        }
     @GetMapping("/posts")
-    public String showPosts(Model model) {
+    public String showPosts(Model model, HttpSession session) {
 //        init(); //be sure to go to web link to populate table
 //        List<Post> posts = IteratorUtils.toList(postRepo.findAll().iterator());
+        session.setAttribute("mySessionAttribute", postRepo.findAll());
         model.addAttribute("posts", postRepo.findAll());
         return "posts/index";
     }
