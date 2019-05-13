@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository //good to add to each repository
 public interface PostRepository extends CrudRepository<Post, Long> { //<Bean Class, Id(Primary Key)>
@@ -17,6 +18,11 @@ public interface PostRepository extends CrudRepository<Post, Long> { //<Bean Cla
 //    void delete(Post post);  // this is a built-in method
 //
 //    List<Post> findByTitle(String title);
+
+    List<Post> findPostsByAuthor_Id(Long id);
+//    @Modifying
+//    @Transactional
+//    @Query("select * from Post p where p.id = ?1")
 
     @Modifying
     @Transactional

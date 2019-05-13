@@ -50,10 +50,9 @@ public class PostController {
 //            return "posts/index";
 //        }
     @GetMapping("/posts")
-    public String showPosts(Model model, HttpSession session) {
+    public String showPosts(Model model) {
 //        init(); //be sure to go to web link to populate table
 //        List<Post> posts = IteratorUtils.toList(postRepo.findAll().iterator());
-        session.setAttribute("mySessionAttribute", postRepo.findAll());
         model.addAttribute("posts", postRepo.findAll());
         return "posts/index";
     }
@@ -70,6 +69,12 @@ public class PostController {
         model.addAttribute("users", userRepo.findAll());
         model.addAttribute("post", new Post()); // matches th:object in view html file
         return "posts/create";
+    }
+
+    @GetMapping("/posts/{id}/display")
+    public String showAllPostsById(@PathVariable long id, Model model) {
+        model.addAttribute("posts", postRepo.findPostsByAuthor_Id(id));
+        return "posts/display";
     }
 
 //    @GetMapping("/posts/create")
